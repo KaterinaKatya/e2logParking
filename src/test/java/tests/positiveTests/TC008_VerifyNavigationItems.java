@@ -8,7 +8,7 @@ import utils.BrowserUtils;
 import utils.ConfigReader;
 import utils.TestBase;
 
-public class TC002_VerifyNavigationItems extends TestBase {
+public class TC008_VerifyNavigationItems extends TestBase {
 
     SoftAssert softAssert = new SoftAssert();
     HomePage homePage = new HomePage();
@@ -18,6 +18,7 @@ public class TC002_VerifyNavigationItems extends TestBase {
     public void VerifyHomePageNavigationItems(){
 
         driver.get(ConfigReader.read("url"));
+        BrowserUtils.waitFor(5);
         BrowserUtils.verifyElementDisplayed(homePage.reserveSpotBtn);
         BrowserUtils.highlight(homePage.reserveSpotBtn);
         String navigatorText1 = homePage.reserveSpotBtn.getText();

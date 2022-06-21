@@ -1,0 +1,7 @@
+<suite name="e2logParking">
+    <test name="testngTest">
+        <classes>
+            <class name="" />
+        </classes>
+    </test>
+</suite>

@@ -15,6 +15,7 @@ public class MakePaymentPage {
     public WebElement makePayment;
 
     public void verifyMakePaymentBtnDisplayed(){
+        BrowserUtils.waitForPageToLoad(2);
         BrowserUtils.highlight(makePayment);
         BrowserUtils.verifyElementDisplayed(makePayment);
     }

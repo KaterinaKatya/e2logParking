@@ -234,37 +234,21 @@ public class BrowserUtils {
         }
     }
 
-
     /**
-     * Waits for element to be not stale
+     * Verifies whether the element is displayed on page
      *
      * @param element
+     * @throws AssertionError if the element is not found or not displayed
      */
-    public static void waitForStaleElement(WebElement element) {
-        int y = 0;
-        while (y <= 15) {
-            if (y == 1)
-                try {
-                    element.isDisplayed();
-                    break;
-                } catch (StaleElementReferenceException st) {
-                    y++;
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } catch (WebDriverException we) {
-                    y++;
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+    public static void verifyElementNotDisplayed(WebElement element) {
+        try {
+            Assert.assertFalse(element.isDisplayed(), "Element not visible: " + element);
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            Assert.fail("Element not found: " + element);
+
         }
     }
-
 
     /**
      * Clicks on an element using JavaScript
@@ -293,17 +277,6 @@ public class BrowserUtils {
      */
     public static void doubleClick(WebElement element) {
         new Actions(Driver.getDriver()).doubleClick(element).build().perform();
-    }
-
-    /**
-     * Changes the HTML attribute of a Web Element to the given value using JavaScript
-     *
-     * @param element
-     * @param attributeName
-     * @param attributeValue
-     */
-    public static void setAttribute(WebElement element, String attributeName, String attributeValue) {
-        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].setAttribute(arguments[1], arguments[2]);", element, attributeName, attributeValue);
     }
 
     /**
@@ -352,57 +325,6 @@ public class BrowserUtils {
     }
 
     /**
-     * executes the given JavaScript command on given web element
-     *
-     * @param element
-     */
-    public static void executeJScommand(WebElement element, String command) {
-        JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
-        jse.executeScript(command, element);
-
-    }
-
-    /**
-     * executes the given JavaScript command on given web element
-     *
-     * @param command
-     */
-    public static void executeJScommand(String command) {
-        JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
-        jse.executeScript(command);
-
-    }
-
-
-    /**
-     * This method will recover in case of exception after unsuccessful the click,
-     * and will try to click on element again.
-     *
-     * @param by
-     * @param attempts
-     */
-    public static void clickWithWait(By by, int attempts) {
-        int counter = 0;
-        //click on element as many as you specified in attempts parameter
-        while (counter < attempts) {
-            try {
-                //selenium must look for element again
-                clickWithJS(Driver.getDriver().findElement(by));
-                //if click is successful - then break
-                break;
-            } catch (WebDriverException e) {
-                //if click failed
-                //print exception
-                //print attempt
-                e.printStackTrace();
-                ++counter;
-                //wait for 1 second, and try to click again
-                waitFor(1);
-            }
-        }
-    }
-
-    /**
      *  checks that an element is present on the DOM of a page. This does not
      *    * necessarily mean that the element is visible.
      * @param by
@@ -411,7 +333,4 @@ public class BrowserUtils {
     public static void waitForPresenceOfElement(By by, long time) {
         new WebDriverWait(Driver.getDriver(), time).until(ExpectedConditions.presenceOfElementLocated(by));
     }
-
-
-
 }

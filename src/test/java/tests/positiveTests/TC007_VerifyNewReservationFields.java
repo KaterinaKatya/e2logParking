@@ -11,7 +11,7 @@ import utils.BrowserUtils;
 import utils.ConfigReader;
 import utils.TestBase;
 
-public class TC003_VerifyNewReservationFields extends TestBase {
+public class TC007_VerifyNewReservationFields extends TestBase {
 
     HomePage homePage = new HomePage();
     ReserveSpotPage reserveSpotPage = new ReserveSpotPage();
@@ -22,7 +22,7 @@ public class TC003_VerifyNewReservationFields extends TestBase {
 
         driver.get(ConfigReader.read("url"));
         new HomePage().clickReserveSpot();
-        BrowserUtils.waitForPageToLoad(2);
+        BrowserUtils.waitForPageToLoad(3);
         reserveSpotPage.clickAddNewReservation();
         BrowserUtils.waitForPageToLoad(2);
 

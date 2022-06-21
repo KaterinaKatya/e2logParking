@@ -6,9 +6,9 @@ import utils.BrowserUtils;
 import utils.ConfigReader;
 import utils.TestBase;
 
-public class TC001_e2e_ReserveSpot extends TestBase {
+public class TC003_e2e_reverseParkingSelectingSpot extends TestBase {
 
-    @Test(priority = 1, description = "Reserve parking spot successfully")
+    @Test(priority = 1, description = "Reserve parking spot and select different parking spot")
     public void reserve() {
 
         ReserveSpotPage reserveSpotPage = new ReserveSpotPage();
@@ -48,7 +48,7 @@ public class TC001_e2e_ReserveSpot extends TestBase {
         reserveSpotPage.selectParkingSpot();
         BrowserUtils.waitForPageToLoad(2);
 
-        selectSpotPage.clickSelectSpot();
+        selectSpotPage.selectSpotByIndex(3);
         BrowserUtils.waitForPageToLoad(2);
 
         reviewReservationPage.reviewReservation();

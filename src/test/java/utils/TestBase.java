@@ -1,7 +1,9 @@
 package utils;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.concurrent.TimeUnit;
@@ -12,7 +14,7 @@ public abstract class TestBase {
     // setting up all driver stuff here directly
     @BeforeMethod
     public void setupMethod() {
-        driver =  Driver.getDriver() ;
+        driver =  Driver.getDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
@@ -20,8 +22,6 @@ public abstract class TestBase {
 
     @AfterMethod
     public void tearDownMethod() {
-        //driver.quit();
-        // quit the browser + make it null, so we can get new one when ask for it again
         Driver.closeBrowser();
     }
 

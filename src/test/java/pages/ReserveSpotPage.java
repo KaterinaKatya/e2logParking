@@ -1,6 +1,7 @@
 package pages;
 
 import com.github.javafaker.Faker;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -48,13 +49,22 @@ public class ReserveSpotPage {
     @FindBy(xpath = "(//span[contains(.,' Select a parking spot ')])[2]")
     public WebElement selectParkingBtn;
 
+    @FindBy(xpath = "//div[contains(@class,'error-message') and contains(., 'Check In Date has to be in the future')]")
+    public WebElement checkInDateErrorMsg;
+
+    @FindBy(xpath = "//div[contains(@class, 'vehicle-info')]/child::span[1]")
+    public WebElement licensePlate;
+
     public void clickAddNewReservation(){
         addNewBtn.click();
     }
 
-    public void inputLicensePlate(){
+    public String inputLicensePlate(){
         Faker faker = new Faker();
-        licensePlateBox.sendKeys(faker.bothify("??? #####"));
+        String licensePlate = faker.bothify("??? #####");
+        licensePlateBox.sendKeys(licensePlate);
+        BrowserUtils.highlight(licensePlateBox);
+        return licensePlate;
     }
 
     public void confirmLicensePlate(){
@@ -84,6 +94,7 @@ public class ReserveSpotPage {
     }
 
     public void selectTodayDate(){
+        BrowserUtils.highlight(todayDate);
         BrowserUtils.clickWithJS(todayDate);
     }
 
@@ -92,20 +103,20 @@ public class ReserveSpotPage {
         selectParkingBtn.click();
     }
 
-    public void selectDate(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public void selectDate(int daysInFuture){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime day = LocalDateTime.now().plus(Duration.of(daysInFuture, ChronoUnit.DAYS));
 
-        String date = "";
-        if(formatter.format(now).startsWith("0")){
-            date = formatter.toString().substring(1);
-        }else{
-            date = formatter.toString();
+        String date = formatter.format(day);
+        System.out.println("date = " + date);
+
+        if(date.startsWith("0")){
+            date = date.substring(1);
         }
 
-        checkInOutBtn.click();
-        selectDate.sendKeys(date);
+        WebElement dateElement = Driver.getDriver().findElement(By.xpath("//div[@aria-selected='false' and normalize-space(.)='" + date + "']"));
+        dateElement.click();
     }
 
     public void selectTime(int timeToAdd){
@@ -125,4 +136,33 @@ public class ReserveSpotPage {
         checkInConfirm.click();
     }
 
+    public void subtractSelectedTime(int timeToSubtract){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        LocalDateTime now = LocalDateTime.now().minus(Duration.of(timeToSubtract, ChronoUnit.MINUTES));
+
+        String time = formatter.format(now);
+
+        if(time.startsWith("0")){
+            time = time.substring(1);
+        }
+
+        selectTime.sendKeys(time);
+        timeOkBtn.click();
+        BrowserUtils.highlight(checkInConfirm);
+        checkInConfirm.click();
+    }
+
+    public void verifyDateErrorMsgDisplayed(boolean expectedStatus) {
+        if (expectedStatus) {
+            BrowserUtils.highlight(checkInDateErrorMsg);
+            BrowserUtils.verifyElementDisplayed(checkInDateErrorMsg);
+        } else {
+            BrowserUtils.verifyElementNotDisplayed(checkInDateErrorMsg);
+        }
+    }
+
+    public String retrieveLicensePlate(){
+        return licensePlate.getText();
+    }
 }
