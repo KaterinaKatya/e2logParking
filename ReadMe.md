@@ -27,6 +27,7 @@
 
 **As a user I should see the license plate displayed in capital letters, even if it's inputted in small letters**
 
+#positive Tests
 *TC007*
 
 **As a user I should be able to see all 'New Reservation' fields**
@@ -38,6 +39,7 @@
 *TC009*
 
 **As a user I should be able to see the Welcome Message on the Home Page**
+
 
 
 

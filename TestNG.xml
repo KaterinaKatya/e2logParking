@@ -1,7 +1,17 @@
 <suite name="e2logParking">
     <test name="testngTest">
         <classes>
-            <class name="" />
+            <class name="tests.endToEnd.TC001_e2e_ReserveSpotForToday" />
+            <class name="tests.endToEnd.TC002_e2e_reserveSpotForFutureDate" />
+            <class name="tests.endToEnd.TC003_e2e_reverseParkingSelectingSpot" />
+
+            <class name="tests.negativeTests.TC004_VerifyJSAlert" />
+            <class name="tests.negativeTests.TC005_CheckInPastDate" />
+            <class name="tests.negativeTests.TC006_VerifyDisplayedLicensePlate" />
+
+            <class name="tests.positiveTests.TC007_VerifyNewReservationFields" />
+            <class name="tests.positiveTests.TC008_VerifyNavigationItems" />
+            <class name="tests.positiveTests.TC009_VerifyWelcomeText" />
         </classes>
     </test>
 </suite>

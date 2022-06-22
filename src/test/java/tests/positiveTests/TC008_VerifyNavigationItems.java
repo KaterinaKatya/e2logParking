@@ -10,12 +10,11 @@ import utils.TestBase;
 
 public class TC008_VerifyNavigationItems extends TestBase {
 
-    SoftAssert softAssert = new SoftAssert();
-    HomePage homePage = new HomePage();
-    AppCommonVariables appCommonVariables = new AppCommonVariables();
-
     @Test(priority = 1, description = "Verify HOme page navigation items are present")
     public void VerifyHomePageNavigationItems(){
+        SoftAssert softAssert = new SoftAssert();
+        HomePage homePage = new HomePage();
+        AppCommonVariables appCommonVariables = new AppCommonVariables();
 
         driver.get(ConfigReader.read("url"));
         BrowserUtils.waitFor(5);

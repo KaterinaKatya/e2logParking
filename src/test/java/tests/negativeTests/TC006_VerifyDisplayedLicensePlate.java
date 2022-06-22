@@ -10,12 +10,11 @@ import utils.TestBase;
 
 public class TC006_VerifyDisplayedLicensePlate extends TestBase {
 
-    ReserveSpotPage reserveSpotPage = new ReserveSpotPage();
-
     //assertNotEqual is used, because lower case letters are inputted, uppercase letters are displayed
     //TODO discuss with dev team
     @Test(priority = 1, description = "Verify that displayed license plate is the same as inputted")
     public void verifyLicensePlateIsAsExpected(){
+        ReserveSpotPage reserveSpotPage = new ReserveSpotPage();
 
         driver.get(ConfigReader.read("url"));
         BrowserUtils.waitForPageToLoad(2);

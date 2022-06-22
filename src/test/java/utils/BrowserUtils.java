@@ -39,65 +39,9 @@ public class BrowserUtils {
     }
 
     /**
-     * Switches to new window by the exact title. Returns to original window if target title not found
-     * @param targetTitle
-     */
-    public static void switchToWindow(String targetTitle) {
-        String origin = Driver.getDriver().getWindowHandle();
-        for (String handle : Driver.getDriver().getWindowHandles()) {
-            Driver.getDriver().switchTo().window(handle);
-            if (Driver.getDriver().getTitle().equals(targetTitle)) {
-                return;
-            }
-        }
-        Driver.getDriver().switchTo().window(origin);
-    }
-
-    /**
-     * Moves the mouse to given element
-     *
-     * @param element on which to hover
-     */
-    public static void hover(WebElement element) {
-        Actions actions = new Actions(Driver.getDriver());
-        actions.moveToElement(element).perform();
-    }
-
-    /**
-     * return a list of string from a list of elements
-     *
-     * @param list of webelements
-     * @return list of string
-     */
-    public static List<String> getElementsText(List<WebElement> list) {
-        List<String> elemTexts = new ArrayList<>();
-        for (WebElement el : list) {
-            elemTexts.add(el.getText());
-        }
-        return elemTexts;
-    }
-
-    /**
-     * Extracts text from list of elements matching the provided locator into new List<String>
-     *
-     * @param locator
-     * @return list of strings
-     */
-    public static List<String> getElementsText(By locator) {
-
-        List<WebElement> elems = Driver.getDriver().findElements(locator);
-        List<String> elemTexts = new ArrayList<>();
-
-        for (WebElement el : elems) {
-            elemTexts.add(el.getText());
-        }
-        return elemTexts;
-    }
-
-    /**
      * Performs a pause
      *
-     * @param seconds
+     * @param seconds Seconds
      */
     public static void waitFor(int seconds) {
         try {
@@ -105,54 +49,6 @@ public class BrowserUtils {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Waits for the provided element to be visible on the page
-     *
-     * @param element
-     * @param timeToWaitInSec
-     * @return
-     */
-    public static WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeToWaitInSec);
-        return wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
-    /**
-     * Waits for element matching the locator to be visible on the page
-     *
-     * @param locator
-     * @param timeout
-     * @return
-     */
-    public static WebElement waitForVisibility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeout);
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
-    /**
-     * Waits for provided element to be clickable
-     *
-     * @param element
-     * @param timeout
-     * @return
-     */
-    public static WebElement waitForClickability(WebElement element, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeout);
-        return wait.until(ExpectedConditions.elementToBeClickable(element));
-    }
-
-    /**
-     * Waits for element matching the locator to be clickable
-     *
-     * @param locator
-     * @param timeout
-     * @return
-     */
-    public static WebElement waitForClickablility(By locator, int timeout) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeout);
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     /**
@@ -185,38 +81,6 @@ public class BrowserUtils {
             error.printStackTrace();
         }
     }
-
-    /**
-     * Verifies whether the element matching the provided locator is displayed on page
-     *
-     * @param by
-     * @throws AssertionError if the element matching the provided locator is not found or not displayed
-     */
-    public static void verifyElementDisplayed(By by) {
-        try {
-            Assert.assertTrue(Driver.getDriver().findElement(by).isDisplayed(), "Element not visible: " + by);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            Assert.fail("Element not found: " + by);
-
-        }
-    }
-
-    /**
-     * Verifies whether the element matching the provided locator is NOT displayed on page
-     *
-     * @param by
-     * @throws AssertionError the element matching the provided locator is displayed
-     */
-    public static void verifyElementNotDisplayed(By by) {
-        try {
-            Assert.assertFalse(Driver.getDriver().findElement(by).isDisplayed(), "Element should not be visible: " + by);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-
-        }
-    }
-
 
     /**
      * Verifies whether the element is displayed on page
@@ -260,25 +124,6 @@ public class BrowserUtils {
         ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", element);
     }
 
-
-    /**
-     * Scrolls down to an element using JavaScript
-     *
-     * @param element
-     */
-    public static void scrollToElement(WebElement element) {
-        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
-    }
-
-    /**
-     * Performs double click action on an element
-     *
-     * @param element
-     */
-    public static void doubleClick(WebElement element) {
-        new Actions(Driver.getDriver()).doubleClick(element).build().perform();
-    }
-
     /**
      * Highlighs an element by changing its background and border color
      * @param element
@@ -289,48 +134,4 @@ public class BrowserUtils {
         ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].removeAttribute('style', 'background: yellow; border: 2px solid red;');", element);
     }
 
-    /**
-     * Checks or unchecks given checkbox
-     *
-     * @param element
-     * @param check
-     */
-    public static void selectCheckBox(WebElement element, boolean check) {
-        if (check) {
-            if (!element.isSelected()) {
-                element.click();
-            }
-        } else {
-            if (element.isSelected()) {
-                element.click();
-            }
-        }
-    }
-
-    /**
-     * attempts to click on provided element until given time runs out
-     *
-     * @param element
-     * @param timeout
-     */
-    public static void clickWithTimeOut(WebElement element, int timeout) {
-        for (int i = 0; i < timeout; i++) {
-            try {
-                element.click();
-                return;
-            } catch (WebDriverException e) {
-                waitFor(1);
-            }
-        }
-    }
-
-    /**
-     *  checks that an element is present on the DOM of a page. This does not
-     *    * necessarily mean that the element is visible.
-     * @param by
-     * @param time
-     */
-    public static void waitForPresenceOfElement(By by, long time) {
-        new WebDriverWait(Driver.getDriver(), time).until(ExpectedConditions.presenceOfElementLocated(by));
-    }
 }

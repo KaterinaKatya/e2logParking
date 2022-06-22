@@ -116,6 +116,7 @@ public class ReserveSpotPage {
         }
 
         WebElement dateElement = Driver.getDriver().findElement(By.xpath("//div[@aria-selected='false' and normalize-space(.)='" + date + "']"));
+        BrowserUtils.highlight(dateElement);
         dateElement.click();
     }
 

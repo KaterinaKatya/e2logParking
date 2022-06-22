@@ -9,11 +9,12 @@ import utils.ConfigReader;
 import utils.TestBase;
 
 public class TC009_VerifyWelcomeText extends TestBase {
-    HomePage homePage = new HomePage();
-    AppCommonVariables appCommonVariables = new AppCommonVariables();
 
     @Test(priority = 1, description = "Verify that 'Welcome text' on the home page dispalyed")
     public void verifyWelcomeMsg(){
+        HomePage homePage = new HomePage();
+        AppCommonVariables appCommonVariables = new AppCommonVariables();
+
         driver.get(ConfigReader.read("url"));
         BrowserUtils.waitFor(5);
         String actualText = homePage.retrieveActualWelcomeMsg();

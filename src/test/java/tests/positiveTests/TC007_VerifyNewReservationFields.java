@@ -13,15 +13,15 @@ import utils.TestBase;
 
 public class TC007_VerifyNewReservationFields extends TestBase {
 
-    HomePage homePage = new HomePage();
-    ReserveSpotPage reserveSpotPage = new ReserveSpotPage();
-    AppCommonVariables appCommonVariables = new AppCommonVariables();
-
     @Test(priority = 1, description = "Verify that fields required for new reservation are present")
     public void verifyFields() {
+        HomePage homePage = new HomePage();
+        ReserveSpotPage reserveSpotPage = new ReserveSpotPage();
+        AppCommonVariables appCommonVariables = new AppCommonVariables();
+
 
         driver.get(ConfigReader.read("url"));
-        new HomePage().clickReserveSpot();
+        homePage.clickReserveSpot();
         BrowserUtils.waitForPageToLoad(3);
         reserveSpotPage.clickAddNewReservation();
         BrowserUtils.waitForPageToLoad(2);
